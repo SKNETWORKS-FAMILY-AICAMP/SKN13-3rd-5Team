@@ -1,4 +1,13 @@
-# csv_loader_chroma.py
+# csv_loader.py
+"""
+본 파일은 dataset에 있는 csv파일을 모두 읽고,
+chroma_db를 구축하는 파일입니다.
+chroma_db를 구축했으면 이 파일을 실행시키지 마시오.
+중간에 설치에 실패했을 경우, 
+chroma_db 폴더를 삭제 후, 다시 이 파일을 실행시키시오.
+"""
+
+
 import os
 import glob
 from dotenv import load_dotenv
@@ -20,12 +29,14 @@ def build_chroma_vector_store(data_dir: str = "SKN13-3rd-5Team/dataset",
         loader = CSVLoader(
             file_path=path,
             source_column="상세페이지링크",
-            metadata_columns=["종목", "명칭", "소재지", "관리자", "분류",
-                              "수량/면적", "지정(등록)일", "소재지(상세)", "시대",
-                              "소유자(소유단체)", "관리자(관리단체)"],
+            metadata_columns=["종목","명칭","소재지","관리자","분류",
+                              "수량/면적","지정(등록)일","소재지(상세)","시대",
+                              "소유자(소유단체)","관리자(관리단체)"],
             csv_args={'delimiter': ","},
             encoding='utf-8',
-            content_columns=["설명"]
+            content_columns=["종목","명칭","소재지","관리자","분류",
+                              "수량/면적","지정(등록)일","소재지(상세)","시대",
+                              "소유자(소유단체)","관리자(관리단체)","설명"]
         )
         docs = loader.load()
         all_csv_docs.extend(docs)
@@ -46,8 +57,6 @@ def build_chroma_vector_store(data_dir: str = "SKN13-3rd-5Team/dataset",
         print(f"🔹{i+1}~{min(i+chunk_size, len(all_csv_docs))} 문서 Chroma에 저장 완료")    # 14637
 
     # 디스크에 저장
-    vector_store.persist()
     print(f"✅ 저장 완료 → {persist_dir}")
-
 
 build_chroma_vector_store()
