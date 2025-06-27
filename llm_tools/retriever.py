@@ -1,5 +1,6 @@
+import time
 from typing import Optional, Dict, Any
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain.schema import Document
 from langchain_openai import OpenAIEmbeddings
 from langchain_core.tools import tool
@@ -35,8 +36,9 @@ def RAG_tool(query: str, filter: Optional[Dict[str, Any]] = None) -> str:
     )
 
     retriever = vector_store.as_retriever(search_kwargs={"k":100})
-
-    docs = retriever.get_relevant_documents(query)
+    print(f"retiever tool called: {query}")
+    docs = retriever.invoke(query)
+    # time.sleep(10)
 
     result = "\n\n".join([doc.page_content for doc in docs])
     return result[:3000]  # 너무 길어지는 것 방지

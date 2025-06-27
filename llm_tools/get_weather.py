@@ -1,11 +1,13 @@
-import math
-import requests
-from datetime import datetime, timedelta
-from typing import Optional
-from collections import defaultdict
-from dotenv import load_dotenv
-from langchain_core.tools import tool
 import os
+import math
+import time
+import requests
+from dotenv import load_dotenv
+from typing import Optional
+from datetime import datetime, timedelta
+from collections import defaultdict
+
+from langchain_core.tools import tool
 
 # ✅ 환경 변수 로드
 load_dotenv()
@@ -51,7 +53,9 @@ def get_weather_by_location_and_date(location: str, date: Optional[str] = None) 
         requested_date = datetime.strptime(date,'%Y-%m-%d').strftime('%Y%m%d') if date else base_date
     except ValueError:
         return "❌ 날짜 형식 오류. 'YYYY-MM-DD' 형식으로 입력해주세요."
-
+    
+    print(f"get_weather tool called: {requested_date}, {location}")
+    
     # 2. 좌표 얻기
     lat, lon = get_latlon_from_kakao(location)
     if lat is None or lon is None:
@@ -72,6 +76,7 @@ def get_latlon_from_kakao(address: str):
 
     try:
         response = requests.get(url, headers=headers, params=params, timeout=5)
+        # time.sleep(5)
         response.raise_for_status()
         data = response.json()
         documents = data.get("documents", [])
@@ -129,6 +134,7 @@ def get_weather_summary_by_date(nx: int, ny: int, base_date: str, fcst_filter_da
 
     try:
         response = requests.get(url, params=params, timeout=5)
+        # time.sleep(5)
         response.raise_for_status()
         items = response.json()["response"]["body"]["items"]["item"]
     except Exception:
@@ -147,10 +153,10 @@ def get_weather_summary_by_date(nx: int, ny: int, base_date: str, fcst_filter_da
             pty_map[time_key] = translate_category("PTY", item["fcstValue"])
 
     result_lines = [f"📅 [{base_date}] {nx},{ny} 날씨 예보 요약:"]
-    for time in sorted(sky_map.keys()):
-        hour = time[-4:-2]
-        sky = sky_map[time]
-        pty = pty_map.get(time, "없음")
+    for times in sorted(sky_map.keys()):
+        hour = times[-4:-2]
+        sky = sky_map[times]
+        pty = pty_map.get(times, "없음")
         result_lines.append(f"  - {hour}시: 하늘 '{sky}', 강수 '{pty}'")
     return "\n".join(result_lines)
 

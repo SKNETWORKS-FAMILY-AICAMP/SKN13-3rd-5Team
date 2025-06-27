@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import base64
 import asyncio
 from typing import Optional, Dict, Any, Type
@@ -16,10 +17,11 @@ from mcp.client.stdio import stdio_client
 
 # 환경 변수 로드
 load_dotenv()
-
+SMITHERY_API_KEY = os.getenv("SMITHERY_API_KEY")
 class NaverSearchInput(BaseModel):
     """네이버 검색 입력 스키마"""
     query: str = Field(description="검색어")
+    tool_name: str = Field(default="search_webkr",description="사용할 검색 MCP 도구")
     display: Optional[int] = Field(default=10, description="한 번에 가져올 결과 수")
     start: Optional[int] = Field(default=1, description="검색 시작 위치")
     sort: Optional[str] = Field(default="sim", description="정렬 방식 (sim: 유사도순, date: 날짜순)")
@@ -28,17 +30,117 @@ class NaverSearchTool(BaseTool):
     """네이버 검색 MCP 도구"""
     name: str = "naver_search"
     description: str = """
-    [Instruction]
-    지역과 키워드를 기반으로 Google Places에서 실제 존재하는 장소(식당, 카페 등)를 검색합니다.
-    실제 존재하는 장소만 보여줘야 할 때 호출하세요.
+# 네이버 검색 MCP 도구 설명서
+네이버 검색 MCP 도구에는 5가지 도구가 있습니다.
+각 도구는 공통적인 5개의 인자를 가집니다.
 
-    [Args]
-    - keyword: 예) 맛집, 한식당, 카페, 체험활동
-    - location: 예) 경복궁, 서울 종로구, 해운대 등
+## search_webkr (네이버 웹 문서 검색)
+```
+[Instruction]
+네이버 웹에서 주제를 검색합니다.
+범용성이 가장 높은 웹 검색도구입니다.
 
-    [Returns]
-    상위 5개 장소의 이름, 주소, 평점 등을 요약해 반환합니다.
-    """
+[Args]
+- query: 검색할 키워드 (예: "근처 맛집", "근처 카페", "근처 숙소")
+- tool_name: "search_webkr" (필수)
+- sort: 정렬 방식 ("sim": 유사도순, "date": 날짜순)
+- display: 가져올 결과 수 (기본 10개)
+- start: 검색 시작 위치 (기본 1)
+
+[Returns]
+주제에 대한 다양한 정보를 반환합니다.
+하지만 낮은 확률로 잘못된 정보일 수도 있습니다.
+```
+
+## search_news (네이버 뉴스 검색)
+```
+[Instruction]
+네이버 뉴스에서 최신 뉴스 기사를 검색합니다.
+실시간 뉴스나 특정 주제의 최신 정보가 필요할 때 호출하세요.
+
+[Args]
+- query: 검색할 키워드 (예: "AI 기술", "경제 동향", "코로나19")
+- tool_name: "search_news" (필수)
+- sort: 정렬 방식 ("sim": 유사도순, "date": 날짜순)
+- display: 가져올 결과 수 (기본 10개)
+- start: 검색 시작 위치 (기본 1)
+
+[Returns]
+뉴스 제목, 내용 요약, 발행일시, 언론사 등의 정보를 반환합니다.
+실제 존재하는 뉴스 기사만 반환되므로 할루시네이션 없이 신뢰할 수 있습니다.
+```
+
+## search_cafearticle (네이버 카페글 검색)
+```
+[Instruction]
+네이버 카페에서 사용자들이 작성한 실제 카페글을 검색합니다.
+커뮤니티 의견이나 실사용 후기가 필요할 때 호출하세요.
+
+[Args]
+- query: 검색할 키워드 (예: "맛집 추천", "여행 후기", "제품 리뷰")
+- tool_name: "search_cafearticle" (필수)
+- sort: 정렬 방식 ("sim": 유사도순, "date": 날짜순)
+- display: 가져올 결과 수 (기본 10개)
+- start: 검색 시작 위치 (기본 1)
+
+[Returns]
+카페글 제목, 내용 일부, 작성일, 카페명 등의 정보를 반환합니다.
+실제 존재하는 카페글만 반환되므로 신뢰성이 높습니다.
+```
+
+## search_blog (네이버 블로그 검색)
+```
+[Instruction]
+네이버 블로그에서 개인 블로거들이 작성한 실제 포스팅을 검색합니다.
+상세한 체험기나 개인적인 견해가 필요할 때 호출하세요.
+
+[Args]
+- query: 검색할 키워드 (예: "맛집 방문기", "여행 일정", "상품 사용후기")
+- tool_name: "search_blog" (필수)
+- sort: 정렬 방식 ("sim": 유사도순, "date": 날짜순)
+- display: 가져올 결과 수 (기본 10개)
+- start: 검색 시작 위치 (기본 1)
+
+[Returns]
+블로그 포스팅 제목, 내용 요약, 작성일, 블로거명 등의 정보를 반환합니다.
+실제 존재하는 블로그 글만 반환되므로 허위 정보 없이 안전합니다.
+```
+
+## search_kin (네이버 지식iN 검색)
+```
+[Instruction]
+네이버 지식iN에서 질문과 답변을 검색합니다.
+구체적인 문제 해결 방법이나 전문적인 답변이 필요할 때 호출하세요.
+
+[Args]
+- query: 검색할 키워드 (예: "법률 문의", "건강 상담", "기술 질문")
+- tool_name: "search_kin" (필수)
+- sort: 정렬 방식 ("sim": 유사도순, "date": 날짜순)
+- display: 가져올 결과 수 (기본 10개)
+- start: 검색 시작 위치 (기본 1)
+
+[Returns]
+질문 제목, 답변 내용, 작성일, 분야 등의 정보를 반환합니다.
+실제 사용자들의 질문과 답변만 반환되므로 실용적이고 신뢰할 수 있습니다.
+```
+
+## 중요 사항
+
+**⚠️ 할루시네이션 방지**
+- 모든 도구는 네이버의 실제 데이터만 반환합니다
+- 존재하지 않는 정보를 생성하지 않습니다
+- 검색 결과가 없으면 "검색 결과 없음"으로 명확히 표시됩니다
+
+**📌 사용 가능한 도구**
+이 MCP에서는 위의 5개 도구만 사용 가능합니다:
+- search_webkr (웹)
+- search_news (뉴스)
+- search_cafearticle (카페글)
+- search_blog (블로그)
+- search_kin (지식iN)
+
+기타 네이버 검색 도구들(쇼핑, 이미지, 백과사전 등)은 이 MCP에서 지원하지 않습니다.
+"""
     args_schema: Type[BaseModel] = NaverSearchInput
     
     class Config:
@@ -47,21 +149,22 @@ class NaverSearchTool(BaseTool):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # MCP 서버 파라미터를 private 속성으로 설정
-        object.__setattr__(self, '_server_params', self._create_server_params())
+        object.__setattr__(self,'_server_params',self._create_server_params())
     
     def _create_server_params(self) -> StdioServerParameters:
         """MCP 서버 파라미터 생성"""
         return StdioServerParameters(
-            command="npx",
-            args=[
+            type = "stdio",
+            command = "npx",
+            args = [
                 "-y",
                 "@smithery/cli@latest",
                 "run",
                 "@isnow890/naver-search-mcp",
                 "--key",
-                os.getenv("SMITHERY_API_KEY"),
-                "--config",
-                self._get_config_b64()
+                SMITHERY_API_KEY,
+                "--profile",
+                "junior-wren-VXm7o3"
             ]
         )
     
@@ -70,19 +173,11 @@ class NaverSearchTool(BaseTool):
         """서버 파라미터 접근"""
         return self._server_params
     
-    def _get_config_b64(self) -> str:
-        """네이버 API 설정을 base64로 인코딩"""
-        config = {
-            "NAVER_CLIENT_ID": os.getenv("NAVER_CLIENT_ID"),
-            "NAVER_CLIENT_SECRET": os.getenv("NAVER_CLIENT_SECRET")
-        }
-        return base64.b64encode(json.dumps(config).encode()).decode()
-    
-    def _run(self, query: str, display: int = 10, start: int = 1, sort: str = "sim") -> str:
+    def _run(self, query: str, tool_name: str = "search_webkr", display: int = 10, start: int = 1, sort: str = "sim") -> str:
         """동기 실행 (비동기 함수를 래핑)"""
-        return asyncio.run(self._arun(query, display, start, sort))
+        return asyncio.run(self._arun(query, tool_name, display, start, sort))
     
-    async def _arun(self, query: str, display: int = 10, start: int = 1, sort: str = "sim") -> str:
+    async def _arun(self, query: str, tool_name: str = "search_webkr", display: int = 10, start: int = 1, sort: str = "sim") -> str:
         """비동기 네이버 검색 실행"""
         try:
             async with stdio_client(self.server_params) as (read, write):
@@ -91,8 +186,9 @@ class NaverSearchTool(BaseTool):
                     await session.initialize()
                     
                     # 검색 실행
+                    print(f"naver_search tool called: {tool_name}, {query}")
                     result = await session.call_tool(
-                        "search_webkr",
+                        tool_name,
                         {
                             "query": query,
                             "display": display,
@@ -100,7 +196,7 @@ class NaverSearchTool(BaseTool):
                             "sort": sort
                         }
                     )
-                    
+                    # time.sleep(5)
                     # 결과 포맷팅
                     if result.content:
                         search_results = []
@@ -121,104 +217,3 @@ class NaverSearchTool(BaseTool):
                         
         except Exception as e:
             return f"검색 중 오류가 발생했습니다: {str(e)}"
-
-class NaverSearchAgent:
-    """네이버 검색 기능을 가진 ChatOpenAI 에이전트"""
-    
-    def __init__(self, model_name: str = "gpt-4o-mini"):
-        self.llm = ChatOpenAI(
-            model=model_name,
-            temperature=0.1,
-            api_key=os.getenv("OPENAI_API_KEY")
-        )
-        
-        # 네이버 검색 도구 초기화
-        self.naver_tool = NaverSearchTool()
-        
-        # LLM에 도구 바인딩
-        self.llm_with_tools = self.llm.bind_tools([self.naver_tool])
-    
-    async def search_and_answer(self, question: str) -> str:
-        """질문에 대해 네이버 검색을 수행하고 답변 생성"""
-        
-        # 1단계: 검색이 필요한지 판단하고 검색 수행
-        search_prompt = f"""
-        다음 질문에 답하기 위해 네이버 검색을 수행해주세요:
-        질문: {question}
-        
-        적절한 검색어를 사용하여 naver_search 도구를 호출해주세요.
-        """
-        
-        # 검색 수행
-        search_response = await self.llm_with_tools.ainvoke([HumanMessage(content=search_prompt)])
-        
-        # 도구 호출이 있다면 실행
-        search_results = ""
-        if search_response.tool_calls:
-            for tool_call in search_response.tool_calls:
-                if tool_call["name"] == "naver_search":
-                    search_results = await self.naver_tool._arun(**tool_call["args"])
-        
-        # 2단계: 검색 결과를 바탕으로 최종 답변 생성
-        if search_results:
-            final_prompt = f"""
-            질문: {question}
-            
-            네이버 검색 결과:
-            {search_results}
-            
-            위 검색 결과를 바탕으로 질문에 대한 정확하고 도움이 되는 답변을 작성해주세요.
-            검색 결과에서 중요한 정보를 추출하여 자연스럽게 답변을 구성해주세요.
-            """
-            
-            final_response = await self.llm.ainvoke([HumanMessage(content=final_prompt)])
-            return final_response.content
-        else:
-            return "죄송합니다. 검색 결과를 가져올 수 없어서 질문에 답변드리기 어렵습니다."
-    
-    def search_and_answer_sync(self, question: str) -> str:
-        """동기 버전의 검색 및 답변"""
-        return asyncio.run(self.search_and_answer(question))
-
-# 사용 예제
-async def main():
-    """메인 실행 함수"""
-    
-    # 에이전트 초기화
-    agent = NaverSearchAgent()
-    
-    # 테스트 질문들
-    questions = [
-        "2024년 한국 경제 성장률은 어떻게 되나요?",
-        "최근 K-pop 트렌드는 무엇인가요?",
-        "서울 맛집 추천해주세요"
-    ]
-    
-    for question in questions:
-        print(f"\n질문: {question}")
-        print("=" * 50)
-        
-        try:
-            answer = await agent.search_and_answer(question)
-            print(f"답변: {answer}")
-        except Exception as e:
-            print(f"오류: {e}")
-        
-        print("\n" + "="*50)
-
-# 동기 버전 사용 예제
-def sync_example():
-    """동기 방식 사용 예제"""
-    agent = NaverSearchAgent()
-    
-    question = "최신 AI 기술 동향은?"
-    answer = agent.search_and_answer_sync(question)
-    print(f"질문: {question}")
-    print(f"답변: {answer}")
-
-if __name__ == "__main__":
-    # 비동기 실행
-    # asyncio.run(main())
-    
-    # 또는 동기 실행
-    sync_example()
