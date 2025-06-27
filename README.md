@@ -96,6 +96,7 @@
 | **Embedding**       | ![TEXT-EMBEDDING-3-LARGE](https://img.shields.io/badge/TEXT--EMBEDDING--3--LARGE-353535?style=for-the-badge&logoColor=white) |
 | **LLM Model**       | ![gpt-4.0](https://img.shields.io/badge/gpt--4.0-4B91FF?style=for-the-badge&logo=openai&logoColor=white) |
 | **Collaboration Tool** | ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white) |
+| **Vector DB**| ![Chroma](https://img.shields.io/badge/Chroma-ff5c83?style=for-the-badge&logo=databricks&logoColor=white) |
 
 
 ### 4️⃣ 시스템 아키텍처
