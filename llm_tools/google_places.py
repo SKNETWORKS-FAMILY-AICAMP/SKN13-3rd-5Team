@@ -5,8 +5,7 @@ from langchain_core.tools import tool
 from dotenv import load_dotenv
 
 load_dotenv()
-# GOOGLE_API_KEY = os.getenv("GOOGLE_PALCE_API_KEY")
-GOOGLE_API_KEY = "AIzaSyBuKo7VlzH4Sd_T7fSkww7GOS0qbDtzD94"
+GOOGLE_API_KEY = os.getenv("GOOGLE_PALCE_API_KEY")
 
 @tool
 def get_places_by_keyword_and_location(keyword: str, location: str) -> str:
