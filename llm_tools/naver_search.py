@@ -28,8 +28,16 @@ class NaverSearchTool(BaseTool):
     """네이버 검색 MCP 도구"""
     name: str = "naver_search"
     description: str = """
-    네이버 웹문서 검색을 수행하는 도구입니다.
-    한국어 검색에 특화되어 있으며, 최신 정보를 찾을 때 유용합니다.
+    [Instruction]
+    지역과 키워드를 기반으로 Google Places에서 실제 존재하는 장소(식당, 카페 등)를 검색합니다.
+    실제 존재하는 장소만 보여줘야 할 때 호출하세요.
+
+    [Args]
+    - keyword: 예) 맛집, 한식당, 카페, 체험활동
+    - location: 예) 경복궁, 서울 종로구, 해운대 등
+
+    [Returns]
+    상위 5개 장소의 이름, 주소, 평점 등을 요약해 반환합니다.
     """
     args_schema: Type[BaseModel] = NaverSearchInput
     
@@ -51,7 +59,7 @@ class NaverSearchTool(BaseTool):
                 "run",
                 "@isnow890/naver-search-mcp",
                 "--key",
-                os.getenv("SMITHERY_API_KEY", "9a537df8-5657-4fbc-9d7f-3e00f777fddb"),
+                os.getenv("SMITHERY_API_KEY"),
                 "--config",
                 self._get_config_b64()
             ]
