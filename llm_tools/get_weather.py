@@ -47,10 +47,8 @@ def get_weather_by_location_and_date(location: str, date: Optional[str] = None) 
 
     # 1. 날짜 파싱 및 보정
     try:
-        target_date = datetime.strptime(date, "%Y-%m-%d") if date else datetime.now()
-        if datetime.now().hour < 5:  # 05시 이전이면 전날 기준
-            target_date -= timedelta(days=1)
-        base_date = target_date.strftime('%Y%m%d')
+        base_date = datetime.now().strftime('%Y%m%d')
+        requested_date = datetime.strptime(date,'%Y-%m-%d').strftime('%Y%m%d') if date else base_date
     except ValueError:
         return "❌ 날짜 형식 오류. 'YYYY-MM-DD' 형식으로 입력해주세요."
 
@@ -63,7 +61,7 @@ def get_weather_by_location_and_date(location: str, date: Optional[str] = None) 
     nx, ny = latlon_to_xy(lat, lon)
 
     # 4. 날씨 요약 정보 반환
-    return get_weather_summary_by_date(nx, ny, base_date)
+    return get_weather_summary_by_date(nx, ny, base_date, requested_date)
 
 
 # ✅ 1. Kakao API: 주소 → 위경도
@@ -116,12 +114,12 @@ def latlon_to_xy(lat: float, lon: float):
 
 
 # ✅ 3. 날씨 요약
-def get_weather_summary_by_date(nx: int, ny: int, base_date: str) -> str:
+def get_weather_summary_by_date(nx: int, ny: int, base_date: str, fcst_filter_date: str) -> str:
     url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"
     params = {
         "serviceKey": WEATHER_API_KEY,
         "pageNo": "1",
-        "numOfRows": "500",
+        "numOfRows": "2000",
         "dataType": "JSON",
         "base_date": base_date,
         "base_time": "0500",
@@ -139,8 +137,9 @@ def get_weather_summary_by_date(nx: int, ny: int, base_date: str) -> str:
     sky_map, pty_map = defaultdict(str), defaultdict(str)
 
     for item in items:
-        if item["fcstDate"] != base_date:
+        if item["fcstDate"] != fcst_filter_date:
             continue
+    
         time_key = f"{item['fcstDate']} {item['fcstTime']}"
         if item["category"] == "SKY":
             sky_map[time_key] = translate_category("SKY", item["fcstValue"])
