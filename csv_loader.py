@@ -17,8 +17,8 @@ from langchain_chroma import Chroma
 
 load_dotenv()
 
-def build_chroma_vector_store(data_dir: str = "SKN13-3rd-5Team/dataset",
-                              persist_dir: str = "chroma_db",
+def build_chroma_vector_store(data_dir: str = "dataset",
+                              persist_dir: str = "../chroma_db",
                               chunk_size: int = 100):
 
     pattern = os.path.join(data_dir, "*.csv")
