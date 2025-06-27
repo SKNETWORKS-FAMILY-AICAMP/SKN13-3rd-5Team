@@ -34,7 +34,7 @@
 <table>
   <tr>
     <td align="center">
-      <img src="image/임.png" width="100"/><br/>우삣삐
+      <img src="image/giga.webp" width="100"/><br/>우삣삐
     </td>
     <td align="center">
       <img src="image/시.png" width="100"/><br/>박삣삐
