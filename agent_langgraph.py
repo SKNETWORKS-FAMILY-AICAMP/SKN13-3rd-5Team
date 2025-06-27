@@ -13,7 +13,7 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.runnables import *
 from llm_tools.retriever import RAG_tool
 from llm_tools.get_weather import get_weather_by_location_and_date
-from chat_history_manager import ChatHistoryManager
+from chat_history_manager2 import ChatHistoryManager
 
 load_dotenv()
 
