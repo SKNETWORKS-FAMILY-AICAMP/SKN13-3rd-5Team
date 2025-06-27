@@ -9,12 +9,13 @@ from sqlalchemy import create_engine
 from langchain_community.chat_message_histories import SQLChatMessageHistory
 
 load_dotenv()
-
+HOST = os.getenv("HOST")|"localhost"
+PORT = os.getenv("PORT")|"3306"
 USER = os.getenv("USER")
 PASS = os.getenv("PASS")
 DB = os.getenv("DB")
 
-engine = create_engine(f"mysql+pymysql://{USER}:{PASS}@localhost:3306/{DB}")
+engine = create_engine(f"mysql+pymysql://{USER}:{PASS}@{HOST}:{PORT}/{DB}")
 
 class ChatHistoryManager:
     def __init__(self):
