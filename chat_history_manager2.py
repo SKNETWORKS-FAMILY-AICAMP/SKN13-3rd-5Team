@@ -9,8 +9,8 @@ from sqlalchemy import create_engine
 from langchain_community.chat_message_histories import SQLChatMessageHistory
 
 load_dotenv()
-HOST = os.getenv("HOST")|"localhost"
-PORT = os.getenv("PORT")|"3306"
+HOST = os.getenv("HOST")
+PORT = os.getenv("PORT")
 USER = os.getenv("USER")
 PASS = os.getenv("PASS")
 DB = os.getenv("DB")
