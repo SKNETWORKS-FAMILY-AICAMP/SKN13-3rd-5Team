@@ -16,6 +16,7 @@ PASS = os.getenv("PASS")
 DB = os.getenv("DB")
 
 engine = create_engine(f"mysql+pymysql://{USER}:{PASS}@{HOST}:{PORT}/{DB}")
+# engine = create_engine(f"mysql+pymysql://root:password@localhost:3306/{DB}")
 
 class ChatHistoryManager:
     def __init__(self):
