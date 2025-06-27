@@ -34,7 +34,7 @@
 <table>
   <tr>
     <td align="center">
-      <img src="image/giga.webp" width="100"/><br/>우삣삐<a href="https://github.com/WooZhoon"><img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/></a>
+      <img src="image/giga.webp" width="100"/><br/>우삣삐
     </td>
     <td align="center">
       <img src="image/시.png" width="100"/><br/>박삣삐
@@ -46,6 +46,17 @@
       <img src="image/진.png" width="100"/><br/>민삣비
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/WooZhoon"><img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/></a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/WooZhoon"><img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/></a>
+    </td>    <td align="center">
+      <a href="https://github.com/WooZhoon"><img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/></a>
+    </td>    <td align="center">
+      <a href="https://github.com/WooZhoon"><img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/></a>
+    </td>
 </table>
 
    
