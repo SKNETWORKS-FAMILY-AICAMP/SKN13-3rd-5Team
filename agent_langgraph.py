@@ -13,7 +13,8 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.runnables import *
 from llm_tools.retriever import RAG_tool
 from llm_tools.get_weather import get_weather_by_location_and_date
-from chat_history_manager2 import ChatHistoryManager
+from chat_history_manager import ChatHistoryManager
+from llm_tools.google_places import get_places_by_keyword_and_location
 
 load_dotenv()
 
@@ -22,7 +23,7 @@ message_manager = ChatHistoryManager()
 # ✅ 1. Agent 및 Tool 설정 (기존과 동일)
 cur_date = datetime.now()
 
-tools = [RAG_tool, get_weather_by_location_and_date]
+tools = [RAG_tool, get_weather_by_location_and_date, get_places_by_keyword_and_location]
 
 agent_prompt = ChatPromptTemplate.from_messages(
     [
@@ -33,6 +34,12 @@ agent_prompt = ChatPromptTemplate.from_messages(
 [Guidelines]
 1. 대한민국의 문화유산에 대한 정보는 RAG_tool 도구를 사용하세요.
 2. 날씨 정보는 get_weather_by_location_and_date 도구를 사용하세요.
+3. 실제 식당, 카페, 명소를 찾을 때는 get_places_by_keyword_and_location을 사용하세요.
+4. get_places_by_keyword_and_location을 사용하여 장소를 검색할때에는 실제로 있는 장소에 대해서 영어로 검색하세요.
+5. get_places_by_keyword_and_location을 사용하여 장소를 검색할때에는 반경 2km 내에있는 정보를 출력해주세요.
+
+
+가능한 정확한 정보를 제공하고, 도구를 조합해서 사용자 요청을 충실히 수행하세요.
 
 각 도구의 목적과 기능을 정확하게 이해하고 각 적절한 상황에서 사용하세요.
 각 도구들을 결합해서 사용자의 요청에 정확한 대답을 하세요.
