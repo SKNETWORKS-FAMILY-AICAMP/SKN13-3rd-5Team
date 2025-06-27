@@ -121,7 +121,7 @@ def get_weather_summary_by_date(nx: int, ny: int, base_date: str) -> str:
     params = {
         "serviceKey": WEATHER_API_KEY,
         "pageNo": "1",
-        "numOfRows": "500",
+        "numOfRows": "2000",
         "dataType": "JSON",
         "base_date": base_date,
         "base_time": "0500",
@@ -139,8 +139,6 @@ def get_weather_summary_by_date(nx: int, ny: int, base_date: str) -> str:
     sky_map, pty_map = defaultdict(str), defaultdict(str)
 
     for item in items:
-        if item["fcstDate"] != base_date:
-            continue
         time_key = f"{item['fcstDate']} {item['fcstTime']}"
         if item["category"] == "SKY":
             sky_map[time_key] = translate_category("SKY", item["fcstValue"])
