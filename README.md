@@ -161,6 +161,10 @@
 
 
 ### 6️⃣ 수집한 데이터 및 전처리 요약
+- [국가유산포털](https://www.heritage.go.kr/heri/cul/culSelectRegionList.do?s_ctcd=11&ccbaLcto=12&pageNo=1_1_3_1)에서 문화재 및 유적지 관련 데이터를 크롤링하였습니다.
+![국가유산포탈 사이트입니다.](image/국가유산포털.png)
+![세부정보 예시입니다.](image/서울숭례문_예시.png)
+
 ```python
 def crawl_heritage_data():
     base_url = "https://www.heritage.go.kr"
@@ -224,7 +228,8 @@ def crawl_heritage_data():
   너무 빠른 요청으로 서버에 부담을 주지 않도록,  
   각 페이지마다 0.5초씩 잠깐 쉬어줍니다.
 
-+ 전처리 관련 작성해야됨 (연변삭제)
+![크롤링 후 사진입니다.](image/CSV_예시.png)
+
 
 
 
