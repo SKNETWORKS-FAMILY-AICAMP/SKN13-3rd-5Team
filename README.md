@@ -147,6 +147,7 @@
 | **Vector DB**| ![Chroma](https://img.shields.io/badge/Chroma-ff5c83?style=for-the-badge&logo=databricks&logoColor=white) |
 | **API 활용** | ![KMA](https://img.shields.io/badge/기상청%20API-1E90FF?style=for-the-badge&logo=cloudflare&logoColor=white) ![Google Places](https://img.shields.io/badge/Google%20Places%20API-4285F4?style=for-the-badge&logo=google&logoColor=white) ![KakaoMap](https://img.shields.io/badge/카카오맵%20API-FFCD00?style=for-the-badge&logo=kakaotalk&logoColor=black) |
 
+<hr>
 
 ## 4️⃣ 시스템 아키텍처
 
@@ -190,7 +191,7 @@ _keyword_and_location
 
 ```
 
-데이터코스 추천 챗봇 동작 단계
+**데이터코스 추천 챗봇 동작 단계**
 1. 질문 입력
 →사용자가 관심사, 목표, 일정, 위치 등 원하는 조건을 자연어로 입력합니다.
 
@@ -202,6 +203,8 @@ _keyword_and_location
 
 4. 맞춤형 답변 반환
 →LLM이 생성한 결과(데이트코스, 동선, 설명 등)를 사용자가 이해하기 쉽게 정리하여 대화형으로 제공합니다.
+
+<hr>
 
 ## 5️⃣ 업무 분류 체계
 
@@ -217,6 +220,8 @@ _keyword_and_location
 | README.md 작성       | 06-27   | 06-30 | 김지민, 박수빈        | GitHub README.md      |코드 취합, 최종 점검|
 | 최종 점검            | 06-27   | 06-30 | ALL                   | 없음                  |모든 작업|
 
+<hr>
+
 ## 6️⃣ 요구사항 명세서
 | **대분류**           | **구현 기능**     | **요구사항 요약**                                                   | **설명 및 적용 기술**                                          |
 |----------------------|------------------|---------------------------------------------------------------------|---------------------------------------------------------------|
@@ -230,6 +235,7 @@ _keyword_and_location
 | **시스템 제어**       | 기능 분기 처리    | 질문이 어떤 유형인지 분석하여 적절한 도구(RAG, 날씨, 장소 등) 호출해야 함 | 키워드 기반 판단 또는 GPT 기반 tool-selector 적용              |
 | **시스템 제어**       | 멀티턴 대응       | 대화의 흐름이 끊기지 않도록 이전 맥락을 기억하며 연속적인 응답을 가능하게 해야 함 | `RunnableWithMessageHistory`와 LangGraph 기반으로 세션 상태 관리 |
 
+<hr>
 
 ## 7️⃣ 수집한 데이터 및 전처리 요약
 
@@ -334,6 +340,7 @@ def crawl_heritage_data():
 
    사용자 질문이 들어오면, 관련 벡터를 검색해 설명 내용을 추출하고, 이를 기반으로 LLM이 최종 응답을 생성
 
+<hr>
 
 ## 8️⃣ 테스트 계획 및 결과 보고서
 ### 테스트 계획 및 결과 보고서
@@ -384,6 +391,7 @@ def crawl_heritage_data():
 | 응답 시간             | 부분 성공      | 평균 15초로 기준 미달                              |
 | 데이터 연동           | 성공      | 모든 외부 API 및 DB 연동 정상 작동                    |
 
+<hr>
 
 ## 9️⃣ 성능 개선 노력
 - **Chroma 벡터 데이터베이스 도입**
@@ -394,6 +402,7 @@ def crawl_heritage_data():
 
  초기 모델은 API 연동 없이 모델 연동만으로 인한 할루시네이션 현상 발생, 이를 해결하기 위해 Google Place API,Naver Search를 연동하여 보다 정확한 정보를 제공함
 
+<hr>
 
 ## 🔟 추후 개선점
 - **정확한 정보 제공**
@@ -423,6 +432,8 @@ def crawl_heritage_data():
 - **과거 대화 기록 열람 기능 추가 예정**
 
  추후에는 사용자가 대화 내역을 목록으로 열람하고, 특정 세션을 선택하여 이어서 대화하거나 복기할 수 있는 기능도 구현할 예정
+
+<hr>
 
 ## 🔍 한 줄 회고
 
