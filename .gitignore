@@ -194,3 +194,4 @@ cython_debug/
 .cursorindexingignore
 
 chroma_db/
+# app.py
