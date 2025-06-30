@@ -1,26 +1,24 @@
 # ✅ LangGraph 기반으로 리팩토링된 agent.py
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import os
+from datetime import datetime
 from dotenv import load_dotenv
 from typing import TypedDict, Optional
-from datetime import datetime
 
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.runnables import *
-from langchain_core.runnables.history import RunnableWithMessageHistory
-
+from langchain.agents import create_tool_calling_agent
+from langchain.agents import AgentExecutor
 from langgraph.graph import StateGraph, END
-from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_core.runnables import *
 
-from llm_tools.chat_history_manager2 import ChatHistoryManager
+from chat_history_manager import ChatHistoryManager
+
 from llm_tools.retriever import RAG_tool
 from llm_tools.get_weather import get_weather_by_location_and_date
 from llm_tools.google_places import get_places_by_keyword_and_location
 from llm_tools.naver_search import NaverSearchTool
-
 
 load_dotenv()
 
@@ -36,7 +34,7 @@ tools = [RAG_tool,get_weather_by_location_and_date,get_places_by_keyword_and_loc
 agent_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", f"""
-당신은 문화유산 데이트코스 생성 모델입니다.
+당신은 문화 유산 탐사대입니다.
 현재 날짜는 {cur_date}입니다.
 
 [Guidelines]
