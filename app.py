@@ -13,7 +13,7 @@ from langchain_core.runnables import *
 
 from langgraph.graph import StateGraph, END
 
-from chat_history_manager2 import ChatHistoryManager
+from llm_tools.chat_history_manager2 import ChatHistoryManager
 
 from llm_tools.retriever import RAG_tool
 from llm_tools.get_weather import get_weather_by_location_and_date
@@ -31,7 +31,7 @@ tools = [RAG_tool, get_weather_by_location_and_date, get_places_by_keyword_and_l
 # ✅ 프롬프트 구성
 agent_prompt = ChatPromptTemplate.from_messages([
     ("system", f"""
-당신은 문화유산 데이트코스 생성 모델입니다.
+당신은 문화유산 여행 코스 생성 모델입니다.
 현재 날짜는 {cur_date}입니다.
 
 [Guidelines]
