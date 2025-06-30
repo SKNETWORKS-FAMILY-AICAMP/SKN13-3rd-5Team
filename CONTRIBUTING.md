@@ -7,28 +7,59 @@
 ## 📁 디렉토리 구조
 
 ```
-root/
-├── app.py                       # Streamlit 메인 실행 파일
-├── pages/
-│   ├── 1_EDA.py                # 탐색적 데이터 분석
-│   └── 2_Prediction.py         # 이탈 예측 시뮬레이션
-├── requirements.txt             # 의존성 패키지 목록
-├── .streamlit/
-│   └── config.toml              # Streamlit 배포 설정
-├── data/
-│   ├── raw/
-│   │   └── customer_data.csv    # 원본 데이터
-│   └── processed/
-│       └── churn_ready.pkl      # 전처리된 데이터 / 모델 입력용
-├── model/
-│   ├── train_model.py           # 모델 학습 스크립트
-│   └── churn_model.pkl          # 학습된 모델 파일
-├── utils/
-│   └── preprocessing.py         # 전처리 함수 모음
-├── notebooks/
-│   └── eda.ipynb                # 탐색적 분석 Jupyter 노트북
-├── CONTRIBUTING.md              # 기여 가이드라인 (본 문서)
-└── README.md                    # 프로젝트 소개
+SKN13-3rd-5Team/
+├── agent/ # 에이전트 관련 실행 파일 및 메인 로직 포함
+│   ├── agent_AgentExecutor.py 
+│   ├── agent_langgraph.py
+│   └── app.py
+├── dataset/ # CSV 데이터 및 데이터 로더 스크립트 포함
+│   ├── Busan_heritage_with_detail_and_desc.csv
+│   ├── Chungbuk_heritage_with_detail_and_desc.csv
+│   ├── Chungnam_heritage_with_detail_and_desc.csv
+│   ├── Daegu_heritage_with_detail_and_desc.csv
+│   ├── Daejeon_heritage_with_detail_and_desc.csv
+│   ├── Gangwon_heritage_with_detail_and_desc.csv
+│   ├── Gawngju_heritage_with_detail_and_desc.csv
+│   ├── Gyeongbuk_heritage_with_detail_and_desc.csv
+│   ├── Gyeonggi_heritage_with_detail_and_desc.csv
+│   ├── Gyeongnam_heritage_with_detail_and_desc.csv
+│   ├── Incheon_heritage_with_detail_and_desc.csv
+│   ├── Jeju_heritage_with_detail_and_desc.csv
+│   ├── Jeonbuk_heritage_with_detail_and_desc.csv
+│   ├── Jeonnam_heritage_with_detail_and_desc.csv
+│   ├── Sejong_heritage_with_detail_and_desc.csv
+│   ├── Seoul_heritage_with_detail_and_desc.csv
+│   ├── Ulsan_heritage_with_detail_and_desc.csv
+│   └── csv_loader.py
+├── image/  # 프로젝트 관련 이미지 및 팀원 사진 저장 폴더
+│   ├── 국가유산포털.png
+│   ├── 김승호_사진.png
+│   ├── 김지민_사진.png
+│   ├── 박수빈_사진.png
+│   ├── 서울숭례문_예시.png
+│   ├── 우지훈_사진.png
+│   ├── CSV_예시.png
+│   └── IMG_9470.jpeg
+├── llm_tools/ # LLM 연동 도구 및 API 호출 모듈 포함
+│   ├── chat_history_manager.py
+│   ├── chat_history_manager2.py
+│   ├── get_weather.py
+│   ├── google_places.py
+│   ├── naver_search.py
+│   └── retriever.py
+├── notebook/ # Jupyter 노트북 및 실험용 스크립트 저장 폴더
+│   ├── 날씨조회_API.ipynb
+│   ├── 크롤링_우지훈.ipynb
+│   ├── crawling_heritage.py
+│   ├── langgraph.ipynb
+│   ├── test_csv_loader.ipynb
+│   └── test_retriever.ipynb
+├── .env # 환경 변수 및 API 키 관리 파일
+├── .gitignore # Git 버전 관리에서 제외할 파일 및 폴더 목록
+├── app.py
+├── CONTRIBUTING.md # 프로젝트 기여 가이드 문서
+└── README.md # 프로젝트 소개 및 문서화 파일
+
 ```
 
 ---
