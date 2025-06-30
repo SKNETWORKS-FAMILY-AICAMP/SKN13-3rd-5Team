@@ -18,7 +18,7 @@ from chat_history_manager2 import ChatHistoryManager
 from llm_tools.retriever import RAG_tool
 from llm_tools.get_weather import get_weather_by_location_and_date
 from llm_tools.google_places import get_places_by_keyword_and_location
-from llm_tools.naver_search import NaverSearchTool
+# from llm_tools.naver_search import NaverSearchTool
 
 # ✅ 환경설정
 load_dotenv()

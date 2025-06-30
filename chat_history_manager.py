@@ -13,7 +13,7 @@ HOST = "127.0.0.1"
 PORT = "3306"
 USER = "root"
 PASS = "1111"
-DB = "project_3"
+DB = "project3"
 
 engine = create_engine(f"mysql+pymysql://{USER}:{PASS}@{HOST}:{PORT}/{DB}")
 
