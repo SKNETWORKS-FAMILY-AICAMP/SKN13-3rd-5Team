@@ -1,17 +1,17 @@
 # ✅ LangGraph 기반으로 리팩토링된 agent.py
 
 import os
-from datetime import datetime
 from dotenv import load_dotenv
 from typing import TypedDict, Optional
+from datetime import datetime
 
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.agents import create_tool_calling_agent
-from langchain.agents import AgentExecutor
-from langgraph.graph import StateGraph, END
-from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.runnables import *
+from langchain_core.runnables.history import RunnableWithMessageHistory
+
+from langgraph.graph import StateGraph, END
+from langchain.agents import AgentExecutor, create_tool_calling_agent
 
 from chat_history_manager2 import ChatHistoryManager
 
@@ -28,8 +28,8 @@ naver_search = NaverSearchTool()
 # ✅ 1. Agent 및 Tool 설정 (기존과 동일)
 cur_date = datetime.now()
 
-tools = [RAG_tool,get_weather_by_location_and_date,get_places_by_keyword_and_location]
-# tools = [RAG_tool,get_weather_by_location_and_date,naver_search]
+# tools = [RAG_tool,get_weather_by_location_and_date,get_places_by_keyword_and_location]
+tools = [RAG_tool,get_weather_by_location_and_date,naver_search]
 
 agent_prompt = ChatPromptTemplate.from_messages(
     [
