@@ -124,6 +124,7 @@
 | **LLM Model**       | ![gpt-4.1](https://img.shields.io/badge/gpt--4.1-4B91FF?style=for-the-badge&logo=openai&logoColor=white) |
 | **Collaboration Tool** | ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white) |
 | **Vector DB**| ![Chroma](https://img.shields.io/badge/Chroma-ff5c83?style=for-the-badge&logo=databricks&logoColor=white) |
+| **API 활용** | ![KMA](https://img.shields.io/badge/기상청%20API-1E90FF?style=for-the-badge&logo=cloudflare&logoColor=white) ![Google Places](https://img.shields.io/badge/Google%20Places%20API-4285F4?style=for-the-badge&logo=google&logoColor=white) ![KakaoMap](https://img.shields.io/badge/카카오맵%20API-FFCD00?style=for-the-badge&logo=kakaotalk&logoColor=black) |
 
 
 ### 4️⃣ 시스템 아키텍처
