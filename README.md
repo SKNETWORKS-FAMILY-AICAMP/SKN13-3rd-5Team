@@ -35,7 +35,7 @@
 <table width="100%">
   <tr>
     <td align="center" width="25%">
-      <img src="image/꼴칰.png" width="150"/><br><br>
+      <img src="image/우지훈_사진.png" width="150"/><br><br>
       <b>우삣삐</b><br><br>
       <a href="https://github.com/WooZhoon">
         <img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/>
@@ -365,7 +365,7 @@ def crawl_heritage_data():
 
 | 팀원   | 한 줄 회고 내용 |
 |--------|----------------|
-| 우삣삐 |                |
+| 우삣삐 | 랭체인이라는 걸 배우기 전에 개인 프로젝트로 LLM이랑 tool calling 사용하는 개인 프로젝트 했었는데 랭체인 배우고 나니 랭체인이 너무 편하고 잘 만들었다는게 느껴진다. 배운 걸 확장해서 tool calling을 통한 자연어 로봇 제어 프로젝트를 해봐야겟다. |
 | 박삣삐 |                |
 | 승삣삐 | AI가 없던 시절 이걸 개발하신 개발자 분들 존경합니다.. |
 | 민삣삐 |                |
