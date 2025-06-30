@@ -35,29 +35,51 @@
 <table width="100%">
   <tr>
     <td align="center" width="25%">
-      <img src="image/꼴칰.png" width="150"/><br><br>
-      <b>우삣삐</b><br><br>
+      <img src="image/우지훈_사진.png" width="150"/>
+    </td>
+    <td align="center" width="25%">
+      <img src="image/박수빈_사진.png" width="150"/>
+    </td>
+    <td align="center" width="25%">
+      <img src="image/김승호_사진.png" width="150"/>
+    </td>
+    <td align="center" width="25%">
+      <img src="image/김지민_사진.png" width="150"/>
+    </td>
+  <tr>
+
+  <tr>
+    <td align="center" width="25%">
+      <b>우삣삐</b>
+    </td>
+    <td align="center" width="25%">
+      <b>박삣삐</b>
+    </td>
+    <td align="center" width="25%">
+      <b>승삣삐</b>
+    </td>
+    <td align="center" width="25%">
+      <b>민삣삐</b>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" width="25%">
       <a href="https://github.com/WooZhoon">
         <img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/>
       </a>
     </td>
     <td align="center" width="25%">
-      <img src="image/박수빈_사진.png" width="150"/><br><br>
-      <b>박삣삐</b><br><br>
       <a href="https://github.com/subin0821">
         <img src="https://img.shields.io/badge/GitHub-subin0821-1F1F1F?logo=github" alt="박수빈 GitHub"/>
       </a>
     </td>
     <td align="center" width="25%">
-      <img src="image/김승호_사진.png" width="150"/><br><br>
-      <b>승삣삐</b><br><br>
       <a href="https://github.com/qqqppma">
         <img src="https://img.shields.io/badge/GitHub-qqqppma-1F1F1F?logo=github" alt="김승호 GitHub"/>
       </a>
     </td>
     <td align="center" width="25%">
-      <img src="image/김지민_사진.png" width="150"/><br><br>
-      <b>민삣삐</b><br><br>
       <a href="https://github.com/Gogimin">
         <img src="https://img.shields.io/badge/GitHub-Gogimin-1F1F1F?logo=github" alt="김지민 GitHub"/>
       </a>
@@ -90,9 +112,9 @@
 
 🎯 **"AI 도슨트가 내 일정과 취향을 반영해 코스를 짜준다면?"** 
 
-자연어로 간단히 질문만 해도, AI 큐레이터가 실시간 날씨와 위치, 시간대, 주변 정보를 종합적으로 분석해 개인 맞춤형 문화유산 중심의 데이트·여행 코스를 추천해줍니다.
+자연어로 간단히 질문만 해도, AI 도슨트가 실시간 날씨와 위치, 시간대, 주변 정보를 종합적으로 분석해 개인 맞춤형 문화유산 중심의 데이트·여행 코스를 추천해줍니다.
 
-이로써 문화유산은 더 이상 어렵고 먼 존재가 아니라, 내 일상과 취향에 맞춰 큐레이터처럼 친절하게 안내받으며 쉽게 즐길 수 있는 생활 속 경험이 됩니다.
+이로써 문화유산은 더 이상 어렵고 먼 존재가 아니라, 내 일상과 취향에 맞춰 도슨트처럼 친절하게 안내받으며 쉽게 즐길 수 있는 생활 속 경험이 됩니다.
 
 > 대화형 AI **여행나래**🤖는  
 **도슨트의 전문성**과 **여행 가이드의 실용성**을 결합해 문화유산 탐방을 더욱 쉽고 풍요롭게 만들어주는 새로운 라이프스타일 플랫폼입니다.
@@ -143,7 +165,7 @@ graph TD
   AgentNode["agent_node (Agent 실행)"]
   RespondNode["respond_node (응답 출력)"]
   AgentExecutor["AgentExecutor
-(GPT-4.1 AI 큐레이터)"]
+(GPT-4.1 AI 도슨트)"]
   RAGTool["RAG_tool (문화유산 검색)"]
   WeatherTool["get_weather_by_location
 _and_date (날씨 조회)"]
@@ -215,14 +237,22 @@ _keyword_and_location
 | **시스템 제어**       | 멀티턴 대응       | 대화의 흐름이 끊기지 않도록 이전 맥락을 기억하며 연속적인 응답을 가능하게 해야 함 | `RunnableWithMessageHistory`와 LangGraph 기반으로 세션 상태 관리 |
 
 
-
-
-
-
 ### 7️⃣ 수집한 데이터 및 전처리 요약
-- [국가유산포털](https://www.heritage.go.kr/heri/cul/culSelectRegionList.do?s_ctcd=11&ccbaLcto=12&pageNo=1_1_3_1)에서 문화재 및 유적지 관련 데이터를 크롤링하였습니다.
+
+> 본 시스템은 문화유산 정보를 기반으로 한 RAG(Retrieval-Augmented Generation) 방식의 검색 응답을 제공하기 위해 다음과 같은 전처리 과정을 거칩니다.
+
+1. **데이터 수집**
+
+   국내 문화유산 관련 정보를 크롤링하여 CSV 형식으로 수집
+
+   
+   [국가유산포털](https://www.heritage.go.kr/heri/cul/culSelectRegionList.do?s_ctcd=11&ccbaLcto=12&pageNo=1_1_3_1)에서 문화재 및 유적지 관련 데이터를 크롤링하였습니다.
+   
+  
 ![국가유산포탈 사이트입니다.](image/국가유산포털.png)
 ![세부정보 예시입니다.](image/서울숭례문_예시.png)
+<br>
+<br>
 
 ```python
 def crawl_heritage_data():
@@ -249,6 +279,8 @@ def crawl_heritage_data():
             all_data.append([num, category, name, location, manager, link])
         time.sleep(0.5)
 ```
+
+
 
 ### 코드 주요 변수 및 동작 설명
 
@@ -290,6 +322,24 @@ def crawl_heritage_data():
 
 ![크롤링 후 사진입니다.](image/CSV_예시.png)
 
+2. **문서화(Document화)**
+
+   각 문화유산 정보를 LangChain의 Document 객체로 변환하여, 텍스트 검색이 가능하도록 구성
+
+   특히, 명칭, 종목, 시대, 설명, 소재지 등의 핵심 필드를 통합하여 정보의 일관성과 검색 가능성 강화
+   
+ <img src="./image/preprocessed.png" width="100%" />
+
+3. **벡터 임베딩 및 저장소 구축**
+
+   OpenAI의 text-embedding-3-large 모델을 사용하여 각 문서에 대한 임베딩을 수행
+
+   벡터 임베딩은 Chroma 벡터 DB에 저장되며, 이후 유사도 기반 검색에 활용
+
+4. **검색 및 RAG Tool 연동**
+
+   사용자 질문이 들어오면, 관련 벡터를 검색해 설명 내용을 추출하고, 이를 기반으로 LLM이 최종 응답을 생성
+
 
 ### 8️⃣ 테스트 계획 및 결과 보고서
 # 테스트 계획 및 결과 보고서
@@ -297,7 +347,7 @@ def crawl_heritage_data():
 ## ✅ 테스트 개요
 
 - **테스트 목적**  
-  AI 큐레이터 기반 데이트코스 추천 챗봇의 주요 기능(문화유산 정보 안내, 실시간 날씨·장소 추천, 맞춤형 코스 설계)이 정상적으로 작동하는지 확인하고, 사용자 경험을 향상시키기 위한 개선점을 도출한다.
+  AI 도슨트 기반 데이트코스 추천 챗봇의 주요 기능(문화유산 정보 안내, 실시간 날씨·장소 추천, 맞춤형 코스 설계)이 정상적으로 작동하는지 확인하고, 사용자 경험을 향상시키기 위한 개선점을 도출한다.
 
 - **테스트 기간**  
   2025년 6월 29일 ~ 2025년 7월 1일
@@ -342,21 +392,25 @@ def crawl_heritage_data():
 
 
 ### 9️⃣ 성능 개선 노력
-- **Chroma 벡터 데이터베이스 도입**: 대규모 문서 검색 효율을 개선하고 의미 기반 정보 검색을 가능하게 하기 위해, 벡터 임베딩 기반의 Chroma DB를 구성하여 응답 정확도와 속도 모두를 향상시킴
-- **정확도 향상을 위한 API 연동**: 초기 모델은 API 연동 없이 모델 연동만으로 인한 할루시네이션 현상 발생, 이를 해결하기 위해 Google Place API,Naver Search를 연동하여
-보다 정확한 정보를 제공함
+- **Chroma 벡터 데이터베이스 도입**
+대규모 문서 검색 효율을 개선하고 의미 기반 정보 검색을 가능하게 하기 위해, 벡터 임베딩 기반의 Chroma DB를 구성하여 응답 정확도와 속도 모두를 향상시킴
+- **정확도 향상을 위한 API 연동**
+초기 모델은 API 연동 없이 모델 연동만으로 인한 할루시네이션 현상 발생, 이를 해결하기 위해 Google Place API,Naver Search를 연동하여 보다 정확한 정보를 제공함
 
 
 ### 🔟 추후 개선점
-- **정확한 정보 제공**: Google Place API, Naver search를 활용했음에도 불구하고 아직 남아있는 할루시네이션 오류 해결 예정
-- **AI 음성 큐레이터 도입**: 유적지 정보와 추천 코스를 AI 목소리로 안내하는 음성 큐레이터 기능을 추가하여, 시각 중심의 인터페이스에서 벗어나 보다 몰입감 있고 접근성 높은 사용자 경험을 제공할 예정
-- **데이터베이스 확장**: 보다 폭넓은 질의응답을 지원하기 위해 다양한 출처의 정보를 통합하고, 지속적인 데이터 수집을 통해 지식 기반의 범위를 확장 예정
-- **응답 속도 개선**: 평균 15초 수준이던 챗봇 응답 지연 문제를 해결하기 위해, GPT 호출 최적화, 불필요한 히스토리 요약, 벡터 DB 검색 범위 축소 및 외부 API 호출 캐싱 등 다양한 성능 개선 기법을 적용 예정
+- **정확한 정보 제공**
+Google Place API, Naver search를 활용했음에도 불구하고 아직 남아있는 할루시네이션 오류 해결 예정
+- **AI 음성 도슨트 도입**
+유적지 정보와 추천 코스를 AI 목소리로 안내하는 음성 도슨트 기능을 추가하여, 시각 중심의 인터페이스에서 벗어나 보다 몰입감 있고 접근성 높은 사용자 경험을 제공할 예정
+- **데이터베이스 확장**
+보다 폭넓은 질의응답을 지원하기 위해 다양한 출처의 정보를 통합하고, 지속적인 데이터 수집을 통해 지식 기반의 범위를 확장 예정
+- **응답 속도 개선**
+평균 15초 수준이던 챗봇 응답 지연 문제를 해결하기 위해, GPT 호출 최적화, 불필요한 히스토리 요약, 벡터 DB 검색 범위 축소 및 외부 API 호출 캐싱 등 다양한 성능 개선 기법을 적용 예정
 - **대화 내용 목록화 및 페이지 분할 도입**
-현재 대화는 모든 메시지가 한 화면에 누적되어 표시되는 구조로, 대화가 길어질수록 UI가 복잡해지고 사용성이 떨어짐
-이에 따라 기존 대화를 목록 형태 또는 접기/펼치기 구조로 개선하고, 필요 시 페이징(페이지 단위) 기능을 도입하여 대화 가독성을 향상시킬 예정
+현재 대화는 모든 메시지가 한 화면에 누적되어 표시되는 구조로, 대화가 길어질수록 UI가 복잡해지고 사용성이 떨어짐, 이에 따라 기존 대화를 목록 형태 또는 접기/펼치기 구조로 개선하고, 필요 시 페이징(페이지 단위) 기능을 도입하여 대화 가독성을 향상시킬 예정
 - **세션 단위 분리 구조 도입 (새로고침 시 새 창 생성)**
- 사용자가 페이지를 새로고침(F5)하면 새로운 대화 세션이 시작되도록 설계하여, 기존 대화와 분리된 독립된 대화를 진행할 수 있도록 개선할 예정
+사용자가 페이지를 새로고침(F5)하면 새로운 대화 세션이 시작되도록 설계하여, 기존 대화와 분리된 독립된 대화를 진행할 수 있도록 개선할 예정
 - **과거 대화 기록 열람 기능 추가 예정**
 추후에는 사용자가 대화 내역을 목록으로 열람하고, 특정 세션을 선택하여 이어서 대화하거나 복기할 수 있는 기능도 구현할 예정
 
@@ -365,7 +419,7 @@ def crawl_heritage_data():
 
 | 팀원   | 한 줄 회고 내용 |
 |--------|----------------|
-| 우삣삐 |                |
+| 우삣삐 | 랭체인이라는 걸 배우기 전에 개인 프로젝트로 LLM이랑 tool calling 사용하는 개인 프로젝트 했었는데<br> 랭체인 배우고 나니 랭체인이 너무 편하고 쉬운게 느껴진다. <br> 배운 걸 확장해서 tool calling을 통한 자연어 로봇 제어 프로젝트를 해봐야겟다. |
 | 박삣삐 |                |
 | 승삣삐 | AI가 없던 시절 이걸 개발하신 개발자 분들 존경합니다.. |
 | 민삣삐 |                |

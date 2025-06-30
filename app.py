@@ -28,6 +28,7 @@ cur_date = datetime.now()
 # ✅ 메시지 관리자 및 도구 설정
 message_manager = ChatHistoryManager()
 tools = [RAG_tool, get_weather_by_location_and_date, get_places_by_keyword_and_location]
+tools = [RAG_tool, get_weather_by_location_and_date, NaverSearchTool()]
 
 # ✅ 프롬프트 구성
 agent_prompt = ChatPromptTemplate.from_messages([
