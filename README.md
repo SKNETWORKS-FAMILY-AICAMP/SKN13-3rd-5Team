@@ -43,12 +43,12 @@
     <td align="center" width="25%">
       <img src="image/김승호_사진.png" width="150"/>
     </td>
-  </tr>
-
-  <tr>
     <td align="center" width="25%">
       <img src="image/김지민_사진.png" width="150"/>
     </td>
+  <tr>
+
+  <tr>
     <td align="center" width="25%">
       <b>우삣삐</b>
     </td>
