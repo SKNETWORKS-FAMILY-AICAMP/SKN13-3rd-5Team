@@ -135,7 +135,7 @@
 
 <hr>
 
-## 3️⃣ 기술 스택 및 파일 구조조
+## 3️⃣ 기술 스택 및 파일 구조
 | 항목                | 내용 |
 |---------------------|------|
 | **Language**        | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) |
