@@ -28,13 +28,13 @@ naver_search = NaverSearchTool()
 # ✅ 1. Agent 및 Tool 설정 (기존과 동일)
 cur_date = datetime.now()
 
-# tools = [RAG_tool,get_weather_by_location_and_date,get_places_by_keyword_and_location]
-tools = [RAG_tool,get_weather_by_location_and_date,naver_search]
+tools = [RAG_tool,get_weather_by_location_and_date,get_places_by_keyword_and_location]
+# tools = [RAG_tool,get_weather_by_location_and_date,naver_search]
 
 agent_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", f"""
-당신은 문화 유산 탐사대입니다.
+당신은 문화유산 데이트코스 생성 모델입니다.
 현재 날짜는 {cur_date}입니다.
 
 [Guidelines]
