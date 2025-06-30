@@ -215,11 +215,106 @@ _keyword_and_location
 | **시스템 제어**       | 멀티턴 대응       | 대화의 흐름이 끊기지 않도록 이전 맥락을 기억하며 연속적인 응답을 가능하게 해야 함 | `RunnableWithMessageHistory`와 LangGraph 기반으로 세션 상태 관리 |
 
 
-
-
-
-
 ### 7️⃣ 수집한 데이터 및 전처리 요약
+
+> 본 시스템은 문화유산 정보를 기반으로 한 RAG(Retrieval-Augmented Generation) 방식의 검색 응답을 제공하기 위해 다음과 같은 전처리 과정을 거칩니다.
+
+1. **데이터 수집**
+
+   국내 문화유산 관련 정보를 크롤링하여 CSV 형식으로 수집
+
+   
+   [국가유산포털](https://www.heritage.go.kr/heri/cul/culSelectRegionList.do?s_ctcd=11&ccbaLcto=12&pageNo=1_1_3_1)에서 문화재 및 유적지 관련 데이터를 크롤링하였습니다.
+  
+![국가유산포탈 사이트입니다.](image/국가유산포털.png)
+![세부정보 예시입니다.](image/서울숭례문_예시.png)
+<br>
+<br>
+
+```python
+def crawl_heritage_data():
+    base_url = "https://www.heritage.go.kr"
+    url_template = (url_template)
+    header = ['연번', '종목', '명칭', '소재지', '관리자', '상세페이지링크']
+    all_data = []
+
+    for page in range(1, page):
+        url = url_template.format(page=page)
+        res = requests.get(url)
+        soup = BeautifulSoup(res.text, "html.parser")
+        for row in soup.select("#txt > table > tbody > tr"):
+            tds = row.find_all('td')
+            if len(tds) < 6:
+                continue
+            num = tds[0].get_text(strip=True)
+            category = tds[1].get_text(strip=True)
+            name = tds[2].get_text(strip=True)
+            location = tds[4].get_text(strip=True)
+            manager = tds[5].get_text(strip=True)
+            a_tag = tds[2].find('a')
+            link = urllib.parse.urljoin(base_url, a_tag['href']) if a_tag and a_tag.has_attr("href") else ''
+            all_data.append([num, category, name, location, manager, link])
+        time.sleep(0.5)
+```
+
+
+
+### 코드 주요 변수 및 동작 설명
+
+- **base_url**  
+  상세페이지 링크를 만들 때 기준이 되는 사이트 주소입니다.
+
+- **url_template**  
+  각 페이지별로 접근할 수 있는 URL 형식입니다.  
+  (예시: `"https://www.heritage.go.kr/heri/cul/culSelectRegionList.do?culPageNo={page}&region=2"`)
+
+- **header**  
+  CSV 파일의 첫 번째 줄에 들어갈 컬럼명 리스트입니다.
+
+- **all_data**  
+  긁어온 모든 데이터를 저장할 빈 리스트입니다.
+
+- **num**  
+  연번(번호)
+
+- **category**  
+  종목(문화재 종류)
+
+- **name**  
+  명칭(문화재 이름)
+
+- **location**  
+  소재지(위치)
+
+- **manager**  
+  관리자(관리 기관)
+
+- **반복 동작 설명**  
+  1페이지부터 마지막 페이지까지 반복하면서,
+  각 페이지의 표에서 한 줄씩 원하는 정보를 뽑아 리스트에 저장합니다.
+
+- **time.sleep(0.5)**  
+  너무 빠른 요청으로 서버에 부담을 주지 않도록,  
+  각 페이지마다 0.5초씩 잠깐 쉬어줍니다.
+
+![크롤링 후 사진입니다.](image/CSV_예시.png)
+
+2. **문서화(Document화)**
+
+   각 문화유산 정보를 LangChain의 Document 객체로 변환하여, 텍스트 검색이 가능하도록 구성
+
+   특히, 명칭, 종목, 시대, 설명, 소재지 등의 핵심 필드를 통합하여 정보의 일관성과 검색 가능성 강화
+
+3. **벡터 임베딩 및 저장소 구축**
+
+   OpenAI의 text-embedding-3-large 모델을 사용하여 각 문서에 대한 임베딩을 수행
+
+   벡터 임베딩은 Chroma 벡터 DB에 저장되며, 이후 유사도 기반 검색에 활용
+
+4. **검색 및 RAG Tool 연동**
+
+   사용자 질문이 들어오면, 관련 벡터를 검색해 설명 내용을 추출하고, 이를 기반으로 LLM이 최종 응답을 생성
+
 - [국가유산포털](https://www.heritage.go.kr/heri/cul/culSelectRegionList.do?s_ctcd=11&ccbaLcto=12&pageNo=1_1_3_1)에서 문화재 및 유적지 관련 데이터를 크롤링하였습니다.
 ![국가유산포탈 사이트입니다.](image/국가유산포털.png)
 ![세부정보 예시입니다.](image/서울숭례문_예시.png)
