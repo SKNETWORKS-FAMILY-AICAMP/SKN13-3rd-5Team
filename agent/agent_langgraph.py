@@ -13,7 +13,7 @@ from langgraph.graph import StateGraph, END
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.runnables import *
 
-from chat_history_manager import ChatHistoryManager
+from llm_tools.chat_history_manager import ChatHistoryManager
 
 from llm_tools.retriever import RAG_tool
 from llm_tools.get_weather import get_weather_by_location_and_date
