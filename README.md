@@ -35,7 +35,7 @@
 <table width="100%">
   <tr>
     <td align="center" width="25%">
-      <img src="image/우지훈_사진.png" width="150"/><br><br>
+      <img src="image/꼴칰.png" width="150"/><br><br>
       <b>우삣삐</b><br><br>
       <a href="https://github.com/WooZhoon">
         <img src="https://img.shields.io/badge/GitHub-WooZhoon-1F1F1F?logo=github" alt="우지훈 GitHub"/>
