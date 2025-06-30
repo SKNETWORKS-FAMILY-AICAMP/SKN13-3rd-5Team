@@ -1,5 +1,4 @@
-# app.py
-
+# app.py``
 import os
 from datetime import datetime
 import streamlit as st
@@ -9,28 +8,27 @@ from typing import TypedDict, Optional
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.agents import create_tool_calling_agent, AgentExecutor
-from langchain_core.runnables import Runnable
 from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_core.runnables import *
+
 from langgraph.graph import StateGraph, END
 
 from chat_history_manager2 import ChatHistoryManager
+
 from llm_tools.retriever import RAG_tool
 from llm_tools.get_weather import get_weather_by_location_and_date
 from llm_tools.google_places import get_places_by_keyword_and_location
 from llm_tools.naver_search import NaverSearchTool
 
-# ✅ 환경 설정
+# ✅ 환경설정
 load_dotenv()
 cur_date = datetime.now()
 
-# ✅ 도구 및 메시지 관리 설정
+# ✅ 메시지 관리자 및 도구 설정
 message_manager = ChatHistoryManager()
-naver_search = NaverSearchTool()
-
 tools = [RAG_tool, get_weather_by_location_and_date, get_places_by_keyword_and_location]
-# tools = [RAG_tool, get_weather_by_location_and_date, naver_search]
 
-# ✅ 프롬프트 정의
+# ✅ 프롬프트 구성
 agent_prompt = ChatPromptTemplate.from_messages([
     ("system", f"""
 당신은 문화유산 데이트코스 생성 모델입니다.
@@ -39,17 +37,16 @@ agent_prompt = ChatPromptTemplate.from_messages([
 [Guidelines]
 1. 대한민국의 문화유산에 대한 정보는 RAG_tool 도구를 사용하세요.
 2. 날씨 정보는 get_weather_by_location_and_date 도구를 사용하세요.
-3. 실제 식당, 카페, 명소를 찾을 때는 naver_search 도구를 사용하세요.
+3. 식당, 명소 등 실제 장소 검색은 get_places_by_keyword_and_location 도구를 사용하세요.
 
-최대한 정확한 정보를 제공하고, 도구를 조합해서 사용자 요청을 충실히 수행하세요.
-**없는 장소를 만들어 내지 마시오.**
+정확한 정보를 바탕으로 데이트 코스를 추천하세요.
 """),
     MessagesPlaceholder(variable_name="history", optional=True),
     ("human", "{query}"),
     MessagesPlaceholder(variable_name="agent_scratchpad", optional=True)
 ])
 
-# ✅ 에이전트 생성
+# ✅ Agent 구성
 agent = create_tool_calling_agent(
     llm=ChatOpenAI(model_name="gpt-4.1"),
     tools=tools,
@@ -71,7 +68,7 @@ class GraphState(TypedDict):
     session_id: str
     response: Optional[str]
 
-# ✅ LangGraph 노드 정의
+# ✅ 노드 정의
 def parse_node(state: GraphState) -> GraphState:
     return {"query": state["query"]}
 
@@ -89,8 +86,7 @@ def agent_node(state: GraphState) -> GraphState:
 def respond_node(state: GraphState) -> GraphState:
     return {
         "query": state["query"],
-        "session_id": state.get("session_id", "NULL"),
-        "response": state.get("response", "응답이 없습니다.")
+        "session_id": state.get("session_id", "NULL")
     }
 
 # ✅ LangGraph 구성
@@ -108,20 +104,22 @@ app = graph.compile()
 
 # ✅ Streamlit UI
 st.set_page_config(page_title="여행나래", page_icon="🏛️")
-st.title("🏛️ 여행나래 - 문화유산 데이트코스 AI")
+st.title("🏛️ 여행나래")
 
-# 세션 ID 입력
-session_id = st.text_input("🆔 대화 ID를 입력하세요", value="user1")
+# 🆔 세션 ID 입력
+session_id = st.text_input("🆔 ID를 입력하세요", value="우삣삐")
 
-# 질문 입력
-query = st.text_input("💬 질문을 입력하세요 (예: 경복궁 소개해주고 인근 데이트 장소 알려줘.)", key="query_input")
+# 🔄 히스토리 초기화 버튼
+if st.button("♻️ 대화 초기화"):
+    message_manager.reset_session(session_id)
+    st.success("대화 히스토리가 ♻️초기화되었습니다.")
 
-# 질문 버튼
+# 💬 사용자 질문 입력
+query = st.text_input("💬 질문을 입력하세요 (예: '내일 경주 데이트코스 추천해줘')", key="query_input")
+
+# ▶️ 실행
 if st.button("질문하기") and query.strip():
     with st.spinner("AI가 답변을 생성 중입니다..."):
-        result = app.invoke({
-            "query": query,
-            "session_id": session_id
-        })
-        st.markdown("### 📌 AI 답변")
-        st.success(result.get("response", "⚠️ 응답이 없습니다."))
+        result = app.invoke({"query": query, "session_id": session_id})
+        st.markdown("### 📌 답변")
+        st.success(result.get("response", "응답이 없습니다."))
