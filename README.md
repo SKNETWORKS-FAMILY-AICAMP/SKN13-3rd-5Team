@@ -135,7 +135,7 @@
 
 <hr>
 
-## 3️⃣ 기술 스택
+## 3️⃣ 기술 스택 및 파일 구조조
 | 항목                | 내용 |
 |---------------------|------|
 | **Language**        | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) |
@@ -147,6 +147,66 @@
 | **Vector DB**| ![Chroma](https://img.shields.io/badge/Chroma-ff5c83?style=for-the-badge&logo=databricks&logoColor=white) |
 | **API 활용** | ![KMA](https://img.shields.io/badge/기상청%20API-1E90FF?style=for-the-badge&logo=cloudflare&logoColor=white) ![Google Places](https://img.shields.io/badge/Google%20Places%20API-4285F4?style=for-the-badge&logo=google&logoColor=white) ![KakaoMap](https://img.shields.io/badge/카카오맵%20API-FFCD00?style=for-the-badge&logo=kakaotalk&logoColor=black) |
 
+<hr>
+
+```markdown
+SKN13-3rd-5Team/
+├── agent/ # 에이전트 관련 실행 파일 및 메인 로직 포함
+│   ├── agent_AgentExecutor.py 
+│   ├── agent_langgraph.py
+│   └── app.py
+│
+├── dataset/ # CSV 데이터 및 데이터 로더 스크립트 포함
+│   ├── Busan_heritage_with_detail_and_desc.csv
+│   ├── Chungbuk_heritage_with_detail_and_desc.csv
+│   ├── Chungnam_heritage_with_detail_and_desc.csv
+│   ├── Daegu_heritage_with_detail_and_desc.csv
+│   ├── Daejeon_heritage_with_detail_and_desc.csv
+│   ├── Gangwon_heritage_with_detail_and_desc.csv
+│   ├── Gawngju_heritage_with_detail_and_desc.csv
+│   ├── Gyeongbuk_heritage_with_detail_and_desc.csv
+│   ├── Gyeonggi_heritage_with_detail_and_desc.csv
+│   ├── Gyeongnam_heritage_with_detail_and_desc.csv
+│   ├── Incheon_heritage_with_detail_and_desc.csv
+│   ├── Jeju_heritage_with_detail_and_desc.csv
+│   ├── Jeonbuk_heritage_with_detail_and_desc.csv
+│   ├── Jeonnam_heritage_with_detail_and_desc.csv
+│   ├── Sejong_heritage_with_detail_and_desc.csv
+│   ├── Seoul_heritage_with_detail_and_desc.csv
+│   ├── Ulsan_heritage_with_detail_and_desc.csv
+│   └── csv_loader.py
+│
+├── image/  # 프로젝트 관련 이미지 및 팀원 사진 저장 폴더
+│   ├── 국가유산포털.png
+│   ├── 김승호_사진.png
+│   ├── 김지민_사진.png
+│   ├── 박수빈_사진.png
+│   ├── 서울숭례문_예시.png
+│   ├── 우지훈_사진.png
+│   ├── CSV_예시.png
+│   └── IMG_9470.jpeg
+│
+├── llm_tools/ # LLM 연동 도구 및 API 호출 모듈 포함
+│   ├── chat_history_manager.py
+│   ├── chat_history_manager2.py
+│   ├── get_weather.py
+│   ├── google_places.py
+│   ├── naver_search.py
+│   └── retriever.py
+│
+├── notebook/ # Jupyter 노트북 및 실험용 스크립트 저장 폴더
+│   ├── 날씨조회_API.ipynb
+│   ├── 크롤링_우지훈.ipynb
+│   ├── crawling_heritage.py
+│   ├── langgraph.ipynb
+│   ├── test_csv_loader.ipynb
+│   └── test_retriever.ipynb
+├── .env # 환경 변수 및 API 키 관리 파일
+├── .gitignore # Git 버전 관리에서 제외할 파일 및 폴더 목록
+├── app.py
+├── CONTRIBUTING.md # 프로젝트 기여 가이드 문서
+└── README.md # 프로젝트 소개 및 문서화 파일
+```
 <hr>
 
 ## 4️⃣ 시스템 아키텍처
