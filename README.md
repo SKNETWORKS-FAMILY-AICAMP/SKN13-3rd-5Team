@@ -157,6 +157,9 @@ SKN13-3rd-5Team/
 │   └── app.py
 │
 ├── dataset/ # CSV 데이터 및 데이터 로더 스크립트 포함
+│   ├── preprocessed/
+│   │   ├── *.csv
+│   │   └── *.json
 │   ├── Busan_heritage_with_detail_and_desc.csv
 │   ├── Chungbuk_heritage_with_detail_and_desc.csv
 │   ├── Chungnam_heritage_with_detail_and_desc.csv
@@ -184,7 +187,7 @@ SKN13-3rd-5Team/
 │   ├── 서울숭례문_예시.png
 │   ├── 우지훈_사진.png
 │   ├── CSV_예시.png
-│   └── IMG_9470.jpeg
+│   └── *.jpeg
 │
 ├── llm_tools/ # LLM 연동 도구 및 API 호출 모듈 포함
 │   ├── chat_history_manager.py
@@ -201,6 +204,7 @@ SKN13-3rd-5Team/
 │   ├── langgraph.ipynb
 │   ├── test_csv_loader.ipynb
 │   └── test_retriever.ipynb
+│
 ├── .env # 환경 변수 및 API 키 관리 파일
 ├── .gitignore # Git 버전 관리에서 제외할 파일 및 폴더 목록
 ├── app.py
