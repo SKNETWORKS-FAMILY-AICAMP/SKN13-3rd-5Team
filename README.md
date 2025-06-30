@@ -36,16 +36,30 @@
 <table>
   <tr>
     <td align="center">
-      <img src="image/우지훈_사진.png" width="100"/><br/>우삣삐
+      <img src="image/우지훈_사진.png" width="100"/>
     </td>
     <td align="center">
-      <img src="image/박수빈_사진.png" width="100"/><br/>박삣삐
+      <img src="image/박수빈_사진.png" width="100"/>
     </td>
     <td align="center">
-      <img src="image/김승호_사진.png" width="100"/><br/>승삣삐
+      <img src="image/김승호_사진.png" width="100"/>
     </td>
     <td align="center">
-      <img src="image/김지민_사진.png" width="100"/><br/>민삣비
+      <img src="image/김지민_사진.png" width="100"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      우삣삐
+    </td>
+    <td align="center">
+      박삣삐
+    </td>
+    <td align="center">
+      승삣삐
+    </td>
+    <td align="center">
+      민삣삐
     </td>
   </tr>
   <tr>
