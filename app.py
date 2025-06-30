@@ -1,4 +1,4 @@
-# app.py``
+# app.py
 import os
 from datetime import datetime
 import streamlit as st
@@ -10,10 +10,11 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.agents import create_tool_calling_agent, AgentExecutor
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.runnables import *
+from langchain_core.messages import HumanMessage, AIMessage
 
 from langgraph.graph import StateGraph, END
 
-from chat_history_manager2 import ChatHistoryManager
+from llm_tools.chat_history_manager2 import ChatHistoryManager
 
 from llm_tools.retriever import RAG_tool
 from llm_tools.get_weather import get_weather_by_location_and_date
@@ -107,19 +108,34 @@ st.set_page_config(page_title="여행나래", page_icon="🏛️")
 st.title("🏛️ 여행나래")
 
 # 🆔 세션 ID 입력
-session_id = st.text_input("🆔 ID를 입력하세요", value="우삣삐")
+session_id = st.text_input("🆔 ID를 입력하세요", value="우삣삐", disabled=False)
 
 # 🔄 히스토리 초기화 버튼
 if st.button("♻️ 대화 초기화"):
     message_manager.reset_session(session_id)
-    st.success("대화 히스토리가 ♻️초기화되었습니다.")
+    st.rerun()  # 새로고침으로 히스토리 즉시 반영
 
-# 💬 사용자 질문 입력
-query = st.text_input("💬 질문을 입력하세요 (예: '내일 경주 데이트코스 추천해줘')", key="query_input")
+# ✅ DB 히스토리 불러와서 채팅 말풍선으로 출력
+history = message_manager.get_session_history(session_id)
+for msg in history.messages:
+    if isinstance(msg, HumanMessage):
+        with st.chat_message("user"):
+            st.markdown(msg.content)
+    elif isinstance(msg, AIMessage):
+        with st.chat_message("assistant"):
+            st.markdown(msg.content)
 
-# ▶️ 실행
-if st.button("질문하기") and query.strip():
-    with st.spinner("AI가 답변을 생성 중입니다..."):
-        result = app.invoke({"query": query, "session_id": session_id})
-        st.markdown("### 📌 답변")
-        st.success(result.get("response", "응답이 없습니다."))
+# 💬 사용자 질문 입력 (엔터 입력 지원)
+query = st.chat_input("질문을 입력하세요 (예: '내일 경주 데이트코스 추천해줘')")
+
+if query:
+    # 사용자 메시지 출력
+    with st.chat_message("user"):
+        st.markdown(query)
+
+    # 챗봇 응답 출력
+    with st.chat_message("assistant"):
+        with st.spinner("AI가 답변을 생성 중입니다..."):
+            result = app.invoke({"query": query, "session_id": session_id})
+            response = result.get("response", "응답이 없습니다.")
+            st.markdown(response)
