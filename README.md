@@ -1,7 +1,5 @@
 ###### SKN13_3rd_5TEAM
 
-# 임 시
-
 ## 🏷️ 목 차
 
 1️⃣ [팀 소개](#1️⃣-팀-소개)
@@ -309,6 +307,14 @@ def crawl_heritage_data():
   - 벡터 DB: Chroma (문화유산 임베딩)  
   - 외부 API: 기상청, Kakao 지도, Google Places, 네이버 MCP  
   - 인터페이스: CLI/웹 챗봇
+
+  - **테스트 화면 구현**
+  <img src="./image/streamlit 1.png" width="100%" />
+
+  <img src="./image/streamlit 2.png" width="100%" />
+
+  <img src="./image/streamlit3.png" width="100%" />
+  
 
 ## ✅ 테스트 항목 및 시나리오
 
